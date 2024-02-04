@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Fechas</title>
+</head>
+<body>
+<h2>Enviar Fechas a la API</h2>
+<form id="fechaForm">
+    <label for="fechaInicio">Fecha de Inicio (DD/MM/YYYY):</label>
+    <input type="text" id="fechaInicio" name="fechaInicio" required pattern="\d{1,2}/\d{1,2}/\d{4}">
+    <br><br>
+    <label for="fechaFin">Fecha de Fin (DD/MM/YYYY):</label>
+    <input type="text" id="fechaFin" name="fechaFin" required pattern="\d{1,2}/\d{1,2}/\d{4}">
+    <br><br>
+    <button type="submit">Enviar Fechas</button>
+</form>
+
+<script>
+    document.getElementById('fechaForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const fechaInicio = document.getElementById('fechaInicio').value;
+        const fechaFin = document.getElementById('fechaFin').value;
+
+        const response = await fetch('/tipo-cambio-rango', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ fechaInicio, fechaFin })
+        });
+
+        const data = await response.json();
+        console.log(data);
+    };
+</script>
+</body>
+</html>
